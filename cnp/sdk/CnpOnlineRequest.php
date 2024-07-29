@@ -146,7 +146,9 @@ class CnpOnlineRequest
                 'decisionPurpose' => XmlFields::returnArrayValue($hash_in, 'decisionPurpose'),
                 'fraudSwitchIndicator' => XmlFields::returnArrayValue($hash_in, 'fraudSwitchIndicator'),
                 'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
-                'authIndicator' => XmlFields::returnArrayValue($hash_in, 'authIndicator')
+                'authIndicator' => XmlFields::returnArrayValue($hash_in, 'authIndicator'),
+                'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData')),
+                'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction')
             );
         }
         $choice_hash = array(XmlFields::returnArrayValue($hash_out, 'card'), XmlFields::returnArrayValue($hash_out, 'paypal'), XmlFields::returnArrayValue($hash_out, 'token'), XmlFields::returnArrayValue($hash_out, 'paypage'), XmlFields::returnArrayValue($hash_out, 'applepay'), XmlFields::returnArrayValue($hash_out, 'mpos'));
@@ -226,7 +228,9 @@ class CnpOnlineRequest
             'decisionPurpose' => XmlFields::returnArrayValue($hash_in, 'decisionPurpose'),
             'fraudSwitchIndicator' => XmlFields::returnArrayValue($hash_in, 'fraudSwitchIndicator'),
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
-            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator')
+            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
+            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData')),
+            'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction')
         );
 
         $choice_hash = array($hash_out['card'], $hash_out['paypal'], $hash_out['token'], $hash_out['paypage'], $hash_out['applepay'], $hash_out['mpos']);
@@ -335,7 +339,8 @@ class CnpOnlineRequest
             'actionReason' => XmlFields::returnArrayValue($hash_in, 'actionReason'),
             'merchantCategoryCode' => XmlFields::returnArrayValue($hash_in, 'merchantCategoryCode'),
             'businessIndicator' => XmlFields::returnArrayValue($hash_in, 'businessIndicator'),
-            'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData'))
+            'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
+            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData'))
         );
 
         $choice_hash = array($hash_out['card'], $hash_out['paypal'], $hash_out['token'], $hash_out['paypage'], $hash_out['mpos'], $hash_out['merchantCategoryCode']);
@@ -432,7 +437,8 @@ class CnpOnlineRequest
             'merchantCategoryCode' => XmlFields::returnArrayValue($hash_in, 'merchantCategoryCode'),
             'businessIndicator' => XmlFields::returnArrayValue($hash_in, 'businessIndicator'),
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
-            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator')
+            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
+            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData'))
         );
 
         $choice_hash = array(XmlFields::returnArrayValue($hash_out, 'card'), XmlFields::returnArrayValue($hash_out, 'paypal'), XmlFields::returnArrayValue($hash_out, 'token'), XmlFields::returnArrayValue($hash_out, 'paypage'), XmlFields::returnArrayValue($hash_out, 'mpos'));
@@ -509,7 +515,8 @@ class CnpOnlineRequest
             'businessIndicator' => XmlFields::returnArrayValue($hash_in, 'businessIndicator'),
             'crypto' => XmlFields::returnArrayValue($hash_in, 'crypto'),
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
-            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator')
+            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
+            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData'))
         );
 
         $choice_hash = array($hash_out['card'], $hash_out['token'], $hash_out['paypage'], $hash_out['mpos']);
@@ -748,7 +755,7 @@ class CnpOnlineRequest
             'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
             'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
             'surchargeAmount' => XmlFields::returnArrayValue($hash_in, 'surchargeAmount'),
-            'enhancedData' => XmlFields::enhancedData($hash_in, 'enhancedData'),
+            'enhancedData' => (XmlFields::enhancedData(XmlFields::returnArrayValue($hash_in, 'enhancedData'))),
             'processingInstructions' => XmlFields::processingInstructions($hash_in, 'processingInstructions'),
             'customBilling' => XmlFields::customBilling($hash_in, 'customBilling'),
             'lodgingInfo' => XmlFields::lodgingInfo($hash_in, 'lodgingInfo'),
@@ -772,7 +779,7 @@ class CnpOnlineRequest
             'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
             'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
             'surchargeAmount' => XmlFields::returnArrayValue($hash_in, 'surchargeAmount'),
-            'enhancedData' => XmlFields::enhancedData($hash_in, 'enhancedData'),
+            'enhancedData' => (XmlFields::enhancedData(XmlFields::returnArrayValue($hash_in, 'enhancedData'))),
             'processingInstructions' => XmlFields::processingInstructions($hash_in, 'processingInstructions'),
             'customBilling' => XmlFields::customBilling($hash_in, 'customBilling'),
             'lodgingInfo' => XmlFields::lodgingInfo($hash_in, 'lodgingInfo'),
@@ -1360,7 +1367,9 @@ class CnpOnlineRequest
     public function fastAccessFunding($hash_in)
     {
         $hash_out = array(
+            'fundingCustomerId' => XmlFields::returnArrayValue($hash_in, 'fundingCustomerId'),
             'fundingSubmerchantId' => XmlFields::returnArrayValue($hash_in, 'fundingSubmerchantId'),
+            'customerName' => XmlFields::returnArrayValue($hash_in, 'customerName'),
             'submerchantName' => XmlFields::returnArrayValue($hash_in, 'submerchantName'),
             'fundsTransferId' => XmlFields::returnArrayValue($hash_in, 'fundsTransferId'),
             'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
@@ -1370,12 +1379,98 @@ class CnpOnlineRequest
             //
             'card' => (XmlFields::cardType(XmlFields::returnArrayValue($hash_in, 'card'))),
             'token' => (XmlFields::cardTokenType(XmlFields::returnArrayValue($hash_in, 'token'))),
-            'paypage' => (XmlFields::cardPaypageType(XmlFields::returnArrayValue($hash_in, 'paypage'))),
-            'fundingCustomerId' => XmlFields::returnArrayValue($hash_in, 'fundingCustomerId'),
-            'customerName' => XmlFields::returnArrayValue($hash_in, 'customerName')
+            'paypage' => (XmlFields::cardPaypageType(XmlFields::returnArrayValue($hash_in, 'paypage')))
+
         );
         $fastAccessFunding = $this->processRequest($hash_out, $hash_in, "fastAccessFunding");
         return $fastAccessFunding;
+    }
+
+    public function BNPLAuthorizationRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
+            'orderId' => XmlFields::returnArrayValue($hash_in, 'orderId'),
+            'provider' => XmlFields::returnArrayValue($hash_in, 'provider'),
+            'postCheckoutRedirectUrl' => XmlFields::returnArrayValue($hash_in, 'postCheckoutRedirectUrl'),
+            'customerInfo' => (XmlFields::customerInfo(XmlFields::returnArrayValue($hash_in, 'customerInfo'))),
+            'billToAddress' => (XmlFields::contact(XmlFields::returnArrayValue($hash_in, 'billToAddress'))),
+            'shipToAddress' => (XmlFields::contact(XmlFields::returnArrayValue($hash_in, 'shipToAddress'))),
+            'enhancedData' => (XmlFields::enhancedData(XmlFields::returnArrayValue($hash_in, 'enhancedData'))),
+        );
+        $BNPLAuthorizationResponse = $this->processRequest($hash_out, $hash_in, "BNPLAuthorizationRequest");
+        return $BNPLAuthorizationResponse;
+    }
+
+    public function BNPLCaptureRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
+            'orderId' => XmlFields::returnArrayValue($hash_in, 'orderId'),
+            'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
+        );
+        $BNPLCaptureResponse = $this->processRequest($hash_out, $hash_in, "BNPLCaptureRequest");
+        return $BNPLCaptureResponse;
+    }
+
+    public function BNPLRefundRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
+            'orderId' => XmlFields::returnArrayValue($hash_in, 'orderId'),
+            'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
+        );
+        $BNPLRefundResponse = $this->processRequest($hash_out, $hash_in, "BNPLRefundRequest");
+        return $BNPLRefundResponse;
+    }
+
+    public function BNPLCancelRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'amount' => XmlFields::returnArrayValue($hash_in, 'amount'),
+            'orderId' => XmlFields::returnArrayValue($hash_in, 'orderId'),
+            'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
+        );
+        $BNPLCancelResponse = $this->processRequest($hash_out, $hash_in, "BNPLCancelRequest");
+        return $BNPLCancelResponse;
+    }
+
+    public function BNPLInquiryRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'orderId' => XmlFields::returnArrayValue($hash_in, 'orderId'),
+            'cnpTxnId' => (XmlFields::returnArrayValue($hash_in, 'cnpTxnId')),
+        );
+        $BNPLInquiryResponse = $this->processRequest($hash_out, $hash_in, "BNPLInquiryRequest");
+        return $BNPLInquiryResponse;
+    }
+
+    public function finicityUrlRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'firstName' => XmlFields::returnArrayValue($hash_in, 'firstName'),
+            'lastName' => XmlFields::returnArrayValue($hash_in, 'lastName'),
+            'phoneNumber' => XmlFields::returnArrayValue($hash_in, 'phoneNumber'),
+            'email' => XmlFields::returnArrayValue($hash_in, 'email'),
+        );
+        $finicityUrlResponse = $this->processRequest($hash_out, $hash_in, "finicityUrlRequest");
+        return $finicityUrlResponse;
+    }
+
+    public function finicityAccountRequest($hash_in)
+    {
+        $hash_out = array(
+            'id' => (XmlFields::returnArrayValue($hash_in, 'id')),
+            'echeckCustomerId' => XmlFields::returnArrayValue($hash_in, 'echeckCustomerId'),
+        );
+        $finicityAccountResponse = $this->processRequest($hash_out, $hash_in, "finicityAccountRequest");
+        return $finicityAccountResponse;
     }
 
     /**
