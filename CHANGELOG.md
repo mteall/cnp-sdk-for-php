@@ -1,5 +1,8 @@
 = CnpOnline CHANGELOG
 
+==Version 12.37.1 (v12.37.0)(July 29, 2024)
+Fix: [cnpAPI v12.37.1] Fix for Ordering issue for Fast Access Funding
+
 ==Version 12.37.0 (v12.37.0)(July 29, 2024)
 * Change: [cnpAPI v12.37] New element added 'postCheckoutRedirectUrl' with min length '1' and maxlength '200'
 * Change: [cnpAPI v12.37] New enum 'provider' is added with value 'AFFIRM'
