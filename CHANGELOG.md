@@ -1,6 +1,6 @@
 = CnpOnline CHANGELOG
 
-==Version 12.37.1 (v12.37.0)(July 29, 2024)
+==Version 12.37.1 (v12.37.1)(July 29, 2024)
 Fix: [cnpAPI v12.37.1] Fix for Ordering issue for Fast Access Funding
 
 ==Version 12.37.0 (v12.37.0)(July 29, 2024)
