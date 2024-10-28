@@ -25,6 +25,11 @@
  */
 
 namespace cnp\sdk;
+use DOMDocument;
+use XSLTProcessor;
+use SimpleXMLElement;
+use SplFileInfo;
+use Exception;
 require_once realpath(dirname(__FILE__)) . '/CnpOnline.php';
 
 class CnpOnlineRequest
@@ -148,7 +153,10 @@ class CnpOnlineRequest
                 'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
                 'authIndicator' => XmlFields::returnArrayValue($hash_in, 'authIndicator'),
                 'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData')),
-                'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction')
+                'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction'),
+                'typeOfDigitalCurrency' => XmlFields::returnArrayValue($hash_in, 'typeOfDigitalCurrency'),
+                'conversionAffiliateId' => XmlFields::returnArrayValue($hash_in, 'conversionAffiliateId'),
+
             );
         }
         $choice_hash = array(XmlFields::returnArrayValue($hash_out, 'card'), XmlFields::returnArrayValue($hash_out, 'paypal'), XmlFields::returnArrayValue($hash_out, 'token'), XmlFields::returnArrayValue($hash_out, 'paypage'), XmlFields::returnArrayValue($hash_out, 'applepay'), XmlFields::returnArrayValue($hash_out, 'mpos'));
@@ -230,7 +238,10 @@ class CnpOnlineRequest
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
             'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
             'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData')),
-            'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction')
+            'fraudCheckAction' => XmlFields::returnArrayValue($hash_in, 'fraudCheckAction'),
+            'typeOfDigitalCurrency' => XmlFields::returnArrayValue($hash_in, 'typeOfDigitalCurrency'),
+            'conversionAffiliateId' => XmlFields::returnArrayValue($hash_in, 'conversionAffiliateId'),
+
         );
 
         $choice_hash = array($hash_out['card'], $hash_out['paypal'], $hash_out['token'], $hash_out['paypage'], $hash_out['applepay'], $hash_out['mpos']);
@@ -468,7 +479,9 @@ class CnpOnlineRequest
             'lodgingInfo' => XmlFields::lodgingInfo(XmlFields::returnArrayValue($hash_in, 'lodgingInfo')),
             'pin' => XmlFields::returnArrayValue($hash_in, 'pin'),
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
-            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator')
+            'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
+            'partialCapture' => XmlFields::partialCapture(XmlFields::returnArrayValue($hash_in, 'partialCapture')),
+
         );
         $captureResponse = $this->processRequest($hash_out, $hash_in, 'capture');
 
@@ -516,7 +529,10 @@ class CnpOnlineRequest
             'crypto' => XmlFields::returnArrayValue($hash_in, 'crypto'),
             'passengerTransportData' => XmlFields::passengerTransportData(XmlFields::returnArrayValue($hash_in, 'passengerTransportData')),
             'foreignRetailerIndicator' => XmlFields::returnArrayValue($hash_in, 'foreignRetailerIndicator'),
-            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData'))
+            'accountFundingTransactionData' => XmlFields::accountFundingTransactionData(XmlFields::returnArrayValue($hash_in, 'accountFundingTransactionData')),
+            'typeOfDigitalCurrency' => XmlFields::returnArrayValue($hash_in, 'typeOfDigitalCurrency'),
+            'conversionAffiliateId' => XmlFields::returnArrayValue($hash_in, 'conversionAffiliateId'),
+
         );
 
         $choice_hash = array($hash_out['card'], $hash_out['token'], $hash_out['paypage'], $hash_out['mpos']);
@@ -1475,6 +1491,35 @@ class CnpOnlineRequest
 
     /**
      * @param $hash_in
+     * @return \DOMDocument|\SimpleXMLElement
+     * @throws exceptions\cnpSDKException
+     */
+    public function encryptionKeyRequest($hash_in)
+    {
+        $hash_out = array(XmlFields::returnArrayValue($hash_in,'encryptionKeyRequest'));
+        $encryptionKeyResponse = $this->processRequest($hash_out, $hash_in, 'encryptionKeyRequest');
+
+        return $encryptionKeyResponse;
+    }
+
+    /**
+     * @param $hash_in
+     * @return \DOMDocument|\SimpleXMLElement
+     * @throws exceptions\cnpSDKException
+     */
+    public function encryptedPayload($hash_in)
+    {
+        $hash_out = array(
+            'encryptionKeySequence' => (XmlFields::returnArrayValue($hash_in, 'encryptionKeySequence')),
+            'payload' => (XmlFields::returnArrayValue($hash_in, 'payload')),
+        );
+        $encryptionKeyResponse = $this->processRequest($hash_out, $hash_in, 'encryptedPayload');
+
+        return $encryptionKeyResponse;
+    }
+
+    /**
+     * @param $hash_in
      * @return array
      */
     private static function overrideConfig($hash_in)
@@ -1528,9 +1573,9 @@ class CnpOnlineRequest
     private function processRequest($hash_out, $hash_in, $type, $choice1 = null, $choice2 = null)
     {
         $hash_config = CnpOnlineRequest::overrideConfig($hash_in);
+        $hash_config= Obj2xml::getConfig($hash_config);
         $hash = CnpOnlineRequest::getOptionalAttributes($hash_in, $hash_out);
         $request = Obj2xml::toXml($hash, $hash_config, $type);
-
 
         if (Checker::validateXML($request)) {
             $request = str_replace("submerchantDebitCtx", "submerchantDebit", $request);
@@ -1538,10 +1583,78 @@ class CnpOnlineRequest
             $request = str_replace("vendorCreditCtx", "vendorCredit", $request);
             $request = str_replace("vendorDebitCtx", "vendorDebit", $request);
 
+            // If oltpEncryptionPayload enabled then send reuqest for encryption.
+            if (isset($hash_config['oltpEncryptionPayload']) and (int)$hash_config['oltpEncryptionPayload'] == 1){
+                $request = CnpOnlineRequest::getEncryptedPayload($request,$hash_config);
+            }
             $cnpOnlineResponse = $this->newXML->request($request, $hash_config, $this->useSimpleXml);
         }
 
         return $cnpOnlineResponse;
     }
 
+    public function getEncryptedPayload($request, $hash_config)
+    {
+        try {
+            $doc = new DOMDocument('1.0', 'UTF-8');
+            $doc->loadXML($request);
+            $root = $doc->documentElement;
+
+            // Find the second child element
+            $secondChild = $root->childNodes->item(1);
+
+            if ($secondChild !== null) {
+
+                // Skip the encrypt payload part for encryptionKeyRequest
+                if ($secondChild->nodeName == 'encryptionKeyRequest') {
+                    return $request;
+
+                } else {
+                    $path = null;
+                    if(isset($hash_config['oltpEncryptionKeyPath'])){
+                        $path = $hash_config['oltpEncryptionKeyPath'];
+                    }
+                    if ($path == null) {
+                        throw new Exception('Problem in reading the Encryption Key path. Provide the Encryption key path.');
+                    } else {
+                        $path = new SplFileInfo($path);
+                        if (!$path->isFile()) {
+                            throw new Exception("The provided path is not a valid file path or the file does not exist.");
+                        }
+                    }
+
+                    $output = $doc->saveXML($secondChild);
+
+                    // removing the child element which needs to be encrypted.
+                    $root->removeChild($secondChild);
+
+                    //Send payload for encryption
+                    $payload = PgpHelper::encryptPayload($output, $path);
+
+                    $encryptedPayloadElement = $doc->createElement('encryptedPayload');
+
+                    // Create and append the encryptionKeySequence element
+                    $encryptionKeySequenceElement = $doc->createElement('encryptionKeySequence');
+                    if(isset($hash_config['oltpEncryptionKeySequence']) and $hash_config['oltpEncryptionKeySequence'] != null ) {
+                        $encryptionKeySequenceElement->nodeValue = (int)$hash_config['oltpEncryptionKeySequence'];
+                        $encryptedPayloadElement->appendChild($encryptionKeySequenceElement);
+                    } else{
+                        throw new Exception('Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence');
+                    }
+                    // Create and append the payload element
+                    $payloadElement = $doc->createElement('payload');
+                    $payloadElement->nodeValue = $payload;
+                    $encryptedPayloadElement->appendChild($payloadElement);
+
+                    // adding new element after encryption
+                    $root->appendChild($encryptedPayloadElement);
+                    $xmlRequest = $doc->saveHTML();
+                    return $xmlRequest;
+                }
+            }
+        } catch (Exception $e) {
+            throw new Exception('Error processing XML request. Please reach out to SDK Support team.', 0, $e);
+        }
+    }
 }
+
