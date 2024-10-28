@@ -215,6 +215,6 @@ class CommManager
             return true;
         }
 
-        return 'false' === strtolower($this->configuration['useFileLocking']);
+        return !('false' === strtolower($this->configuration['useFileLocking']));
     }
 }
